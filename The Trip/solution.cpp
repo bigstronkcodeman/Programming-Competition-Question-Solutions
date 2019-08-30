@@ -73,20 +73,12 @@ float getMinExchange(Trip& trip)
 
 		for (int j = index; j < trip.expenses.size(); j++)
 		{
-			if (trip.expenses[j] + amt >= trip.averageExpense)
-			{
-				exchanged += (trip.expenses[j] - trip.averageExpense);
-				toDistribute -= (trip.expenses[j] - trip.averageExpense);
-				toDistribute += ((trip.expenses[j] - amt) - trip.averageExpense);
-				numRecipients = (trip.expenses.size() - (j + 1));
-				amt = toDistribute / numRecipients;
-				trip.expenses[j] = trip.averageExpense;
-			}
-			else
-			{
-				trip.expenses[j] -= amt;
-				exchanged += amt;
-			}
+			exchanged += (trip.expenses[j] - trip.averageExpense);
+			toDistribute -= (trip.expenses[j] - trip.averageExpense);
+			toDistribute += ((trip.expenses[j] - amt) - trip.averageExpense);
+			numRecipients = (trip.expenses.size() - (j + 1));
+			amt = toDistribute / numRecipients;
+			trip.expenses[j] = trip.averageExpense;
 		}
 	}
 
