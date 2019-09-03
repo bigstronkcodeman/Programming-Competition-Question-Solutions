@@ -53,7 +53,6 @@ int main()
 
 		double expense;
 		double avg = 0;
-		double total = 0;
 		for (int i = 0; i < n; i++)
 		{
 			cin >> expense;
