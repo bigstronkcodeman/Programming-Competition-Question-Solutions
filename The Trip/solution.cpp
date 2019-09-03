@@ -2,7 +2,6 @@
 #include <iostream>
 #include <iomanip>
 #include <vector>
-#include <cstdlib>
 #include <math.h>
 
 using namespace std;
@@ -10,79 +9,38 @@ using namespace std;
 struct Trip
 {
 	int students;
-	vector<float> expenses;
-	float averageExpense;
+	vector<double> expenses;
+	double averageExpense;
 };
 
-void swap(vector<float>& expenses, int i, int j)
+double roundnum(double num)
 {
-	if (i < expenses.size() && j < expenses.size())
-	{
-		float temp = expenses[i];
-		expenses[i] = expenses[j];
-		expenses[j] = temp;
-	}
+	return (int)(num * 100.0) / 100.0;
 }
 
-float roundnum(float num)
+double max(double a, double b)
 {
-	return roundf(num * 100) / 100;
+	return a > b ? a : b;
 }
 
-void sortExpenses(vector<float>& expenses)
+double calcMinExchange(Trip& trip)
 {
-	for (int i = 1; i < expenses.size(); i++)
+	double x1 = 0;
+	double x2 = 0;
+	
+	for (int i = 0; i < trip.expenses.size(); i++)
 	{
-		float toInsert = expenses[i];
-
-		int j = i - 1;
-		while (j >= 0 && expenses[j] > toInsert)
+		if (trip.expenses[i] < trip.averageExpense)
 		{
-			expenses[j + 1] = expenses[j];
-			j--;
+			x1 += roundnum((trip.averageExpense - trip.expenses[i]));
 		}
-
-		expenses[j + 1] = toInsert;
-	}
-}
-
-float getMinExchange(Trip& trip)
-{
-	sortExpenses(trip.expenses);
-
-	int index = -1;
-	for (int i = 0; index == -1 && i < trip.expenses.size(); i++)
-	{
-		if (trip.expenses[i] > trip.averageExpense)
+		else
 		{
-			index = i;
+			x2 += roundnum((trip.expenses[i] - trip.averageExpense));
 		}
 	}
 
-	if (index == -1)
-	{
-		return 0.0;
-	}
-
-	float exchanged = 0;
-	for (int i = 0; i < index; i++)
-	{
-		float toDistribute = trip.averageExpense - trip.expenses[i];
-		int numRecipients = trip.expenses.size() - index;
-		float amt = toDistribute / numRecipients;
-
-		for (int j = index; j < trip.expenses.size(); j++)
-		{
-			exchanged += (trip.expenses[j] - trip.averageExpense);
-			toDistribute -= (trip.expenses[j] - trip.averageExpense);
-			toDistribute += ((trip.expenses[j] - amt) - trip.averageExpense);
-			numRecipients = (trip.expenses.size() - (j + 1));
-			amt = toDistribute / numRecipients;
-			trip.expenses[j] = trip.averageExpense;
-		}
-	}
-
-	return exchanged;
+	return max(x1, x2);
 }
 
 int main()
@@ -94,8 +52,9 @@ int main()
 		Trip trip;
 		trip.students = n;
 
-		float expense;
-		float avg = 0;
+		double expense;
+		double avg = 0;
+		double total = 0;
 		for (int i = 0; i < n; i++)
 		{
 			cin >> expense;
@@ -110,9 +69,7 @@ int main()
 
 	for (int i = 0; i < trips.size(); i++)
 	{
-		//cout << "$" << getMinExchange(trips[i]);
-		printf("$%.2f", getMinExchange(trips[i]));
-		if (i != trips.size() - 1) cout << endl;
+		cout << fixed << setprecision(2) << "$" << calcMinExchange(trips[i]) << endl;
 	}
 
 	return 0;
