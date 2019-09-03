@@ -31,11 +31,11 @@ double calcMinExchange(Trip& trip)
 	{
 		if (trip.expenses[i] < trip.averageExpense)
 		{
-			x1 += roundnum((trip.averageExpense - trip.expenses[i]));
+			x1 += roundnum(trip.averageExpense - trip.expenses[i]);
 		}
 		else
 		{
-			x2 += roundnum((trip.expenses[i] - trip.averageExpense));
+			x2 += roundnum(trip.expenses[i] - trip.averageExpense);
 		}
 	}
 
