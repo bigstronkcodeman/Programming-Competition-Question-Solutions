@@ -2,7 +2,6 @@
 
 #include <iostream>
 #include <vector>
-#include <chrono>
 
 #define SIZE 1000000
 
