@@ -2,9 +2,13 @@
 
 #include <iostream>
 #include <vector>
-#include <unordered_map>
+#include <chrono>
+
+#define SIZE 1000000
 
 using namespace std;
+
+int store[SIZE];
 
 vector<vector<int>> getInput()
 {
@@ -22,42 +26,52 @@ vector<vector<int>> getInput()
 	return din;
 }
 
-int sequence(int n, unordered_map<int, int>& savedResults)
+int sequence(int n)
 {
-	if (savedResults.find(n) != savedResults.end())
+	if (n < SIZE && store[n] != 0)
 	{
-		return savedResults[n] + (n != 1);
+		return store[n];
 	}
-	else
+
+	long long int _n = n;
+	int count = 1;
+
+	while (_n != 1)
 	{
-		int count;
-		if (n == 1)
+		if (_n % 2 == 0)
 		{
-			count = 1;
-			savedResults[n] = count;
-			return count;
-		}
-		else if (n % 2 == 0)
-		{
-			count = sequence(n / 2, savedResults);
-			savedResults[n] = count;
-			return count + 1;
+			_n /= 2;
 		}
 		else
 		{
-			count = sequence((3 * n) + 1, savedResults);
-			savedResults[n] = count;
-			return count + 1;
+			_n = (3 * _n) + 1;
+		}
+
+		if (_n < SIZE && store[_n] != 0)
+		{
+			count += store[_n];
+			break;
+		}
+		else
+		{
+			count++;
 		}
 	}
+
+	if (n < SIZE)
+	{
+		store[n] = count;
+	}
+
+	return count;
 }
 
-int maxSequenceCycle(int i, int j, unordered_map<int, int>& savedResults)
+int maxSequenceCycle(int i, int j)
 {
 	int max = 0;
 	for (int k = i; k <= j; k++)
 	{
-		int cycleLength = sequence(k, savedResults);
+		int cycleLength = sequence(k);
 		if (cycleLength > max)
 		{
 			max = cycleLength;
@@ -69,7 +83,6 @@ int maxSequenceCycle(int i, int j, unordered_map<int, int>& savedResults)
 int main()
 {
 	vector<vector<int>> data = getInput();
-	unordered_map<int, int> savedResults;
 
 	for (int i = 0; i < data.size(); i++)
 	{
@@ -81,7 +94,7 @@ int main()
 			data[i][0] = data[i][1];
 			data[i][1] = temp;
 		}
-		cout << a << " " << b << " " << maxSequenceCycle(data[i][0], data[i][1], savedResults) << endl;
+		cout << a << " " << b << " " << maxSequenceCycle(data[i][0], data[i][1]) << endl;
 	}
 
 	return 0;
