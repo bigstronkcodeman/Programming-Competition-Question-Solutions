@@ -35,12 +35,10 @@ int main()
 
 			for (int j = h - 1; j < N; j += h)
 			{
-				int weeksPast = j / DAYS_IN_WEEK;
-				int dow = (j % DAYS_IN_WEEK);
-				int date = (weeksPast * DAYS_IN_WEEK) + dow;
+				int dow = j % DAYS_IN_WEEK;
 				if (dow != 5 && dow != 6)
 				{
-					days[date]++;
+					days[j]++;
 				}
 			}
 		}
