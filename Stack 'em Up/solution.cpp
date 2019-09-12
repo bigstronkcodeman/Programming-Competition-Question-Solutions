@@ -67,8 +67,6 @@ int main()
 				cin >> card;
 				shuffle.push_back(card);
 			}
-			if (j == n - 1)
-				int x = 5;
 			shuffles.push_back(shuffle);
 		}
 
