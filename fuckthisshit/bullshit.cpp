@@ -337,7 +337,7 @@ int fib(BigInt l, BigInt h)
 	if ((f2 > l || f2 == l) && (f2 < h || f2 == h)) ++count;
 	while ((curr < h) || (curr == h))
 	{
-		if ((curr > l || curr == l) && (curr < h || curr == h)) ++count;
+		if (curr > l || curr == l) ++count;
 		f1 = f2;
 		f2 = curr;
 		curr = f1 + f2;
@@ -347,20 +347,20 @@ int fib(BigInt l, BigInt h)
 
 int main()
 {
-	vector<vector<BigInt>> instances;
+	//vector<vector<BigInt>> instances;
 	string num1, num2;
 	while (cin >> num1 >> num2 && (num1 != "0" || num2 != "0"))
 	{
 		BigInt low(num1, 10);
 		BigInt high(num2, 10);
-		instances.push_back({ low, high });
-		//cout << fib(low, high) << endl;
+		//instances.push_back({ low, high });
+		cout << fib(low, high) << endl;
 	}
 
-	for (int i = 0; i < instances.size(); i++)
+	/*for (int i = 0; i < instances.size(); i++)
 	{
 		cout << fib(instances[i][0], instances[i][1]) << endl;
-	}
+	}*/
 
 	return 0;
 }
