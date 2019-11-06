@@ -161,5 +161,7 @@ int main()
 		if (i != t - 1) cout << endl;
 	}
 
+	delete[] results;
+	
 	return 0;
 }
